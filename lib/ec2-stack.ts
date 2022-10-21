@@ -11,6 +11,7 @@ export interface Ec2StackInputs extends StackProps {
     readonly serviceRole: IRole;
     readonly bucketName: string;
     readonly queueUrl: string;
+    readonly queueName: string;
 }
 
 export class Ec2Stack extends cdk.Stack {
@@ -20,15 +21,24 @@ export class Ec2Stack extends cdk.Stack {
     constructor(scope: Construct, id: string, props?: Ec2StackInputs) {
         super(scope, id, props);
 
-        const { vpc, publicSubnetGroupName, serviceSg, serviceRole, bucketName, queueUrl } = props!;
+        const { 
+            vpc, 
+            publicSubnetGroupName, 
+            serviceSg, 
+            serviceRole, 
+            bucketName, 
+            queueUrl, 
+            queueName 
+        } = props!;
 
         const fileName = "hello_world.txt";
 
         const userData = UserData.forLinux();
         userData.addCommands(
+            `su - ec2-user`,
             `yum update -y`,
             `yum install -y curl unzip`,
-            `cd ~`,
+            `cd /home/ec2-user`,
             `curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"`,
             `unzip awscliv2.zip`,
             `sudo ./aws/install`,
@@ -37,7 +47,7 @@ export class Ec2Stack extends cdk.Stack {
             `touch ${fileName}`,
             `echo "hello world" > ${fileName}`,
             `aws s3 cp ${fileName} s3://${bucketName}/${fileName}`,
-            `aws sqs send-message ${queueUrl} --message-body "${fileName} UPLOADED"`
+            `aws sqs send-message --queue-url ${queueUrl} --message-body "${fileName} UPLOADED"`
         );
 
         const ec2InstanceId = 'demo-ec2';
@@ -60,9 +70,5 @@ export class Ec2Stack extends cdk.Stack {
         this.outputs = {
             instanceId
         };
-        
-        new CfnOutput(this, 'instanceId', {
-            value: instanceId
-        });
     }
 }

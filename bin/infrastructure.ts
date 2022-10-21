@@ -25,7 +25,7 @@ const sqsStack = new SqsStack(app, 'SqsStack', {
   env
 });
 
-const { queueUrl } = sqsStack.outputs;
+const { queueUrl, queueName } = sqsStack.outputs;
 
 const vpcStack = new VpcStack(app, 'VpcStack', {
   env
@@ -49,6 +49,7 @@ const rdsStack = new RdsStack(app, 'RdsStack', {
 const iamStack = new IamStack(app, 'IamStack', {
   bucketName,
   queueUrl,
+  queueName,
   env
 });
 
@@ -63,6 +64,7 @@ const ec2Stack = new Ec2Stack(app, 'Ec2Stack', {
   serviceRole,
   bucketName,
   queueUrl,
+  queueName,
   env
 });
 

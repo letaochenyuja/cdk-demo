@@ -19,9 +19,5 @@ export class S3Stack extends cdk.Stack {
         this.outputs = {
             bucketName
         };
-
-        new CfnOutput(this, 'bucketName', {
-            value: bucketName
-        });
     }
 }

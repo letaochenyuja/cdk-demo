@@ -148,25 +148,5 @@ export class VpcStack extends cdk.Stack {
       serviceSg,
       databaseSg
     };
-
-    new CfnOutput(this, 'vpcId', {
-      value: vpc.vpcId
-    });
-
-    new CfnOutput(this, 'publicSubnetGroupName', {
-      value: publicSubnetGroupName
-    });
-
-    new CfnOutput(this, 'privateSubnetGroupName', {
-      value: privateSubnetGroupName
-    });
-
-    new CfnOutput(this, 'serviceSgId', {
-      value: serviceSg.securityGroupId
-    });
-
-    new CfnOutput(this, 'databaseSgId', {
-      value: databaseSg.securityGroupId
-    });
   }
 }

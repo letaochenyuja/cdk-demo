@@ -35,9 +35,5 @@ export class RdsStack extends cdk.Stack {
         this.outputs = {
             instanceIdentifier 
         };
-
-        new CfnOutput(this, 'instanceIdentifier', {
-            value: instanceIdentifier
-        });
     }
 }

@@ -14,13 +14,10 @@ export class SqsStack extends cdk.Stack {
         const sqsId = 'demo-sqs';
         const sqsQueue = new Queue(this, sqsId);
 
-        const { queueUrl } = sqsQueue;
+        const { queueUrl, queueName } = sqsQueue;
         this.outputs = {
-            queueUrl
+            queueUrl, 
+            queueName
         };
-        
-        new CfnOutput(this, 'queueUrl', {
-            value: queueUrl
-        });
     }
 }

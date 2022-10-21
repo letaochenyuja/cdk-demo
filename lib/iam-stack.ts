@@ -7,6 +7,7 @@ import { Construct } from 'constructs';
 export interface IamStackInputs extends StackProps {
     readonly bucketName: string;
     readonly queueUrl: string;
+    readonly queueName: string;
 }
 
 export class IamStack extends cdk.Stack {
@@ -16,7 +17,7 @@ export class IamStack extends cdk.Stack {
     constructor(scope: Construct, id: string, props?: IamStackInputs) {
         super(scope, id, props);
 
-        const { bucketName, queueUrl } = props!;
+        const { bucketName, queueUrl, queueName } = props!;
 
         const serviceRoleId = `demo-service-role`;
         const serviceRole = new Role(this, serviceRoleId, {
@@ -44,7 +45,7 @@ export class IamStack extends cdk.Stack {
             statements: [
                 new PolicyStatement({
                     actions: ["sqs:SendMessage"],
-                    resources: [`arn:aws:sqs:*:*:${queueUrl}`]
+                    resources: [`arn:aws:sqs:*:*:${queueName}`]
                 })
             ],
             roles: [serviceRole]
@@ -53,17 +54,5 @@ export class IamStack extends cdk.Stack {
         this.outputs = {
             serviceRole
         };
-
-        new CfnOutput(this, 'accessBucketPolicyId', {
-            value: accessBucketPolicyId
-        });
-
-        new CfnOutput(this, 'accessSqsPolicyId', {
-            value: accessSqsPolicyId
-        });
-
-        new CfnOutput(this, 'serviceRole', {
-            value: serviceRoleId
-        });
     }
 }
