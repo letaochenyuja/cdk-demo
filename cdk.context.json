@@ -1,0 +1,9 @@
+{
+  "availability-zones:account=141194390324:region=us-west-1": [
+    "us-west-1b",
+    "us-west-1c"
+  ],
+  "acknowledged-issue-numbers": [
+    21902
+  ]
+}

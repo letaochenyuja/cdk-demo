@@ -1,8 +1,8 @@
 {
-  "name": "cdk-demo",
+  "name": "infrastructure",
   "version": "0.1.0",
   "bin": {
-    "cdk-demo": "bin/cdk-demo.js"
+    "infrastructure": "bin/infrastructure.js"
   },
   "scripts": {
     "build": "tsc",
